@@ -120,7 +120,7 @@ while generation <= generations or infinite:
                     check_condition(field, 1, i, j) >= 4 or check_condition(field, 1, i, j) < 2):
                 check.field[i][j] = 0
 
-            if not field.field[i][j] == 3 and not field.field[i][j] == 2 and (
+            if field.field[i][j] == 0 and (
                     field.field[i][j] == 0 and check_condition(field, 1, i, j) == 3):
                 check.field[i][j] = 1
 
@@ -129,7 +129,7 @@ while generation <= generations or infinite:
                     check_condition(field, 2, i, j) >= 4 or check_condition(field, 2, i, j) < 2):
                 check.field[i][j] = 0
 
-            if not field.field[i][j] == 3 and not field.field[i][j] == 1 and (
+            if field.field[i][j] == 0 and (
                     field.field[i][j] == 0 and check_condition(field, 2, i, j) == 3):
                 check.field[i][j] = 2
 

@@ -9,12 +9,16 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--field", help="size of the field: NxN")
 parser.add_argument("--gen", help="number of generations")
 parser.add_argument("--sec", help="waiting time")
+parser.add_argument("--inf", help="toggle infinite mode", action="store_true")
+parser.add_argument("--key", help="toggle keyboard mode (press ENTER for next generation)", action="store_true")
 args = parser.parse_args()
 
 # default values
 fieldSize = 5
 generations = 5
 seconds = 3
+infinite = False
+keyboardMode = False
 
 # args processing
 try:
@@ -46,6 +50,12 @@ try:
             seconds = 3
 except:
     pass
+
+if args.inf:
+    infinite = True
+
+if args.key:
+    keyboardMode = True
 
 
 def cls():
@@ -94,16 +104,19 @@ generation = 0
 
 cls()
 print(field)
-print(f"Generation: {generation}")
-time.sleep(seconds)
+print(f"Generation: {generation}\n")
+if not keyboardMode:
+    time.sleep(seconds)
+else:
+    input('Press Enter to continue...\nCTRL+C to stop')
 cls()
 
-for _ in range(generations):
+while generation <= generations or infinite:
     check = copy.deepcopy(field)
     for i in range(field.size):
         for j in range(field.size):
             # check fish
-            if not field.field[i][j] == 3 and not field.field[i][j] == 2 and (
+            if field.field[i][j] == 1 and (
                     check_condition(field, 1, i, j) >= 4 or check_condition(field, 1, i, j) < 2):
                 check.field[i][j] = 0
 
@@ -112,7 +125,7 @@ for _ in range(generations):
                 check.field[i][j] = 1
 
             # check shrimp
-            if not field.field[i][j] == 3 and not field.field[i][j] == 1 and field.field[i][j] == 1 and (
+            if field.field[i][j] == 2 and (
                     check_condition(field, 2, i, j) >= 4 or check_condition(field, 2, i, j) < 2):
                 check.field[i][j] = 0
 
@@ -124,7 +137,10 @@ for _ in range(generations):
     generation += 1
 
     print(field)
-    print(f"Generation: {generation}")
-    time.sleep(seconds)
+    print(f"Generation: {generation}\n")
+    if not keyboardMode:
+        time.sleep(seconds)
+    else:
+        input('Press Enter to continue...\nCTRL+C to stop')
     cls()
 print(field)

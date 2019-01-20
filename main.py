@@ -3,6 +3,10 @@ import copy
 import os
 import time
 import argparse
+from colorama import init
+from colorama import Fore, Back, Style
+
+init()
 
 # parse args
 parser = argparse.ArgumentParser()
@@ -62,6 +66,16 @@ def cls():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
+def color_cell(x):
+    if x == '1':
+        return Fore.WHITE + '1'
+    if x == '2':
+        return Fore.BLUE + '2'
+    if x == '3':
+        return Fore.YELLOW + '3'
+    return Back.BLACK+' '
+
+
 class Field:
     def __init__(self, field_size):
         self.size = fieldSize
@@ -70,7 +84,7 @@ class Field:
     def __repr__(self):
         res = ''
         for line in self.field:
-            res += ' '.join(str(x) for x in line) + '\n'
+            res += ' '.join(color_cell(str(x)) for x in line) + '\n'
         return res
 
 
@@ -104,11 +118,11 @@ generation = 0
 
 cls()
 print(field)
-print(f"Generation: {generation}\n")
+print(Back.WHITE+Fore.BLACK+f"Generation: {generation}\n"+Back.BLACK)
 if not keyboardMode:
     time.sleep(seconds)
 else:
-    input('Press Enter to continue...\nCTRL+C to stop')
+    input(Back.WHITE+Fore.BLACK+'Press Enter to continue...\nCTRL+C to stop'+Back.BLACK)
 cls()
 
 while generation <= generations or infinite:
@@ -137,10 +151,10 @@ while generation <= generations or infinite:
     generation += 1
 
     print(field)
-    print(f"Generation: {generation}\n")
+    print(Back.WHITE+Fore.BLACK+f"Generation: {generation}\n"+Back.BLACK)
     if not keyboardMode:
         time.sleep(seconds)
     else:
-        input('Press Enter to continue...\nCTRL+C to stop')
+        input(Back.WHITE+Fore.BLACK+'Press Enter to continue...\nCTRL+C to stop'+Back.BLACK)
     cls()
 print(field)
